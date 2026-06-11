@@ -3,6 +3,7 @@ import threading
 import soundfile as sf
 import json
 import os
+import sys
 import time
 import pygame
 import queue
@@ -14,11 +15,27 @@ from os.path import isfile, join
 
 clear = lambda: os.system('cls')
 
-DATA_TYPE = os.getenv('DATA_TYPE')
+# Load .env file if it exists in the current directory or executable directory
+def load_env():
+    executable_dir = os.path.dirname(os.path.abspath(sys.executable if getattr(sys, 'frozen', False) else __file__))
+    env_paths = ['.env', os.path.join(executable_dir, '.env')]
+    for path in env_paths:
+        if os.path.exists(path):
+            with open(path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        key, val = line.split('=', 1)
+                        os.environ.setdefault(key.strip(), val.strip())
+            break
 
-DATA_PATH = os.getenv('DATA_PATH')
+load_env()
 
-CONSOLE_LYRICS = int(os.getenv('CONSOLE_LYRICS'))==1
+DATA_TYPE = os.getenv('DATA_TYPE', 'int16')
+
+DATA_PATH = os.getenv('DATA_PATH', '.')
+
+CONSOLE_LYRICS = int(os.getenv('CONSOLE_LYRICS', '0')) == 1
 
 data = None
 
@@ -33,8 +50,8 @@ out1 = None
 out2 = None
 
 # Config
-BLOCKSIZE = int(os.getenv('BLOCKSIZE'))
-BUFFERSIZE = int(os.getenv('BUFFERSIZE'))
+BLOCKSIZE = int(os.getenv('BLOCKSIZE', '2048'))
+BUFFERSIZE = int(os.getenv('BUFFERSIZE', '20'))
 
 # Begin: PyGame
 
@@ -55,7 +72,11 @@ display_surface = pygame.display.set_mode((X, Y), flags=pygame.HIDDEN)
 
 pygame.display.set_caption('Lyrics')
 
-font = pygame.font.Font('freesansbold.ttf', 32)
+def _resource(relative):
+    base = sys._MEIPASS if getattr(sys, 'frozen', False) else os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base, relative)
+
+font = pygame.font.Font(_resource('freesansbold.ttf'), 32)
 
 # End: PyGame
 
@@ -151,10 +172,10 @@ def loadData():
         "songs":[]
     }
 
-    onlyfiles = [f for f in listdir(DATA_PATH) if isfile(join(DATA_PATH, f))]
+    onlyfiles = [f for f in listdir(DATA_PATH) if isfile(join(DATA_PATH, f)) and f.lower().endswith('.json')]
 
     for elem in onlyfiles:
-        namePath = DATA_PATH + '\\' + elem
+        namePath = os.path.join(DATA_PATH, elem)
         f = open(namePath, mode="r", encoding='utf-8')
         miDat = json.load(f)
         data["songs"].append(miDat)

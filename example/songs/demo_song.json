@@ -1,0 +1,7 @@
+{
+    "title": "Demo Song",
+    "artist": "Demo Artist",
+    "songpath": "./songs/demo_song.wav",
+    "karaokepath": "./songs/demo_karaoke.wav",
+    "lyricspath": "./songs/demo_song.lrc"
+}
