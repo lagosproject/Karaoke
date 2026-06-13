@@ -34,7 +34,11 @@ a = Analysis(
 # libcaffe2_nvrtc links the NVIDIA driver (libcuda.so.1) directly, which breaks
 # linuxdeploy's AppImage dependency resolution; torch only needs it for CUDA
 # JIT of C++ extensions, which this app never does.
-a.binaries = [b for b in a.binaries if "libcaffe2_nvrtc" not in b[0]]
+#
+# We also exclude libstdc++.so.6 and libgcc_s.so.1 to avoid conflicts with
+# newer system libraries (like libjack.so.0) on newer host distributions.
+excluded_binaries = {"libcaffe2_nvrtc", "libstdc++.so.6", "libgcc_s.so.1"}
+a.binaries = [b for b in a.binaries if not any(ex in b[0] for ex in excluded_binaries)]
 
 pyz = PYZ(a.pure)
 
