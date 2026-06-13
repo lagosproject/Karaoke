@@ -1,43 +1,92 @@
-# Python
+# ==========================================
+# SingChronized Git Ignore Configuration
+# ==========================================
+
+# 1. Environment & Local Secrets (CRITICAL)
+# ------------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+*.p12
+*.cer
+*.crt
+*.pfx
+
+# 2. Python (Backend) Caches & Virtual Envs
+# ------------------------------------------
 __pycache__/
 *.py[cod]
+*$py.class
 *.egg-info/
 .venv/
 venv/
 env/
-
-# Test / tooling caches
+ENV/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
 htmlcov/
+.tox/
+.nox/
+.ipynb_checkpoints/
 
-# Node / frontend build
+# 3. Node.js (Frontend) Dependencies & Builds
+# --------------------------------------------
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 frontend/dist/
+frontend/build/
 
-# PyInstaller backend build
+# 4. PyInstaller & Tauri Build Outputs
+# -------------------------------------
 /build/
 /dist/
-
-# Tauri
+*.spec
+!singchronized-backend.spec
 frontend/src-tauri/target/
 frontend/src-tauri/gen/
 frontend/src-tauri/resources/
+!frontend/src-tauri/resources/logo.svg
 
-# Backend runtime data (song library, database)
+# 5. Application Library & Databases (Runtime)
+# --------------------------------------------
 backend/library/
 backend/library.db
+backend/library.db-journal
+*.db
+*.sqlite
 
-# Environment files
-.env
-.env.*
-
-# Editors / OS
+# 6. IDEs & Editors
+# ------------------
 .idea/
 .vscode/
-.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+*~
 
-# Logs
+# 7. OS & System Caches
+# ----------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# 8. Log Files
+# -------------
 *.log
+logs/
