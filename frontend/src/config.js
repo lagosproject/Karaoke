@@ -1,13 +1,17 @@
-// Packaged (Tauri) builds inject the sidecar port via an initialization
-// script (window.__BACKEND_PORT__) before any app code runs.
-// In Vite dev mode (port 5173) the backend runs separately on :8000;
-// otherwise the frontend is served by the backend itself.
-const tauriPort = window.__BACKEND_PORT__;
-const isViteDev = window.location.port === '5173';
+// Packaged (Tauri) builds inject the sidecar port via eval() once the backend
+// is ready: `window.__BACKEND_PORT__ = <port>`. Read it lazily at call time so
+// the value is always current regardless of when eval() fires relative to page load.
 
-export const API_BASE = tauriPort
-  ? `http://127.0.0.1:${tauriPort}`
-  : (isViteDev ? 'http://localhost:8000' : '');
-export const WS_BASE = tauriPort
-  ? `ws://127.0.0.1:${tauriPort}`
-  : (isViteDev ? 'ws://localhost:8000' : `ws://${window.location.host}`);
+const isViteDev = () => window.location.port === '5173';
+
+export const getApiBase = () => {
+  const port = window.__BACKEND_PORT__;
+  if (port) return `http://127.0.0.1:${port}`;
+  return isViteDev() ? 'http://localhost:8000' : '';
+};
+
+export const getWsBase = () => {
+  const port = window.__BACKEND_PORT__;
+  if (port) return `ws://127.0.0.1:${port}`;
+  return isViteDev() ? 'ws://localhost:8000' : `ws://${window.location.host}`;
+};

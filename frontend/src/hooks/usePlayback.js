@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../api/client';
-import { WS_BASE } from '../config';
+import { getWsBase } from '../config';
 
 export function usePlayback({ songs, fetchSongs }) {
   const [playback, setPlayback] = useState({ is_playing: false, is_paused: false, current_time: 0, song_id: null });
@@ -46,7 +46,7 @@ export function usePlayback({ songs, fetchSongs }) {
     const setupWebSocket = () => {
       if (wsRef.current) return;
 
-      const ws = new WebSocket(`${WS_BASE}/api/ws/playback`);
+      const ws = new WebSocket(`${getWsBase()}/api/ws/playback`);
       ws.onmessage = (event) => {
         const msg = JSON.parse(event.data);
         if (msg.type === 'playback_status') {

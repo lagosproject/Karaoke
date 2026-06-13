@@ -1,5 +1,5 @@
 import { Mic, PlayCircle } from 'lucide-react';
-import { API_BASE } from '../../config';
+import { getApiBase } from '../../config';
 import { useApp } from '../../context/app-context';
 
 export default function PlaylistCard({ playlist, onClick }) {
@@ -16,7 +16,7 @@ export default function PlaylistCard({ playlist, onClick }) {
     <div className="spotify-card" onClick={onClick}>
       <div className="spotify-card-img" style={{ overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {playlist.thumbnail_url ? (
-          <img src={`${API_BASE}${playlist.thumbnail_url}`} alt={playlist.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={`${getApiBase()}${playlist.thumbnail_url}`} alt={playlist.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
           <Mic size={32} />
         )}

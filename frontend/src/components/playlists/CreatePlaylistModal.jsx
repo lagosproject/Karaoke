@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { api } from '../../api/client';
 import { useApp } from '../../context/app-context';
 import { Music, Search, Trash2, Plus } from 'lucide-react';
-import { API_BASE } from '../../config';
+import { getApiBase } from '../../config';
 
 function CreatePlaylistForm({ presetSongIds }) {
   const { closeCreatePlaylistModal, library, playlists } = useApp();
@@ -188,7 +188,7 @@ function CreatePlaylistForm({ presetSongIds }) {
                           flexShrink: 0
                         }}>
                           {song.thumbnail_url ? (
-                            <img src={`${API_BASE}${song.thumbnail_url}`} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={`${getApiBase()}${song.thumbnail_url}`} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           ) : (
                             <Music size={14} />
                           )}
@@ -264,7 +264,7 @@ function CreatePlaylistForm({ presetSongIds }) {
                           flexShrink: 0
                         }}>
                           {song.thumbnail_url ? (
-                            <img src={`${API_BASE}${song.thumbnail_url}`} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={`${getApiBase()}${song.thumbnail_url}`} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           ) : (
                             <Music size={16} />
                           )}

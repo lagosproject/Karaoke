@@ -1,6 +1,6 @@
 import { Layers, Music, Settings, Trash2 } from 'lucide-react';
 import { useApp } from '../../context/app-context';
-import { API_BASE } from '../../config';
+import { getApiBase } from '../../config';
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   const { playlists, queue } = useApp();
@@ -78,7 +78,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               }}
             >
               {p.thumbnail_url ? (
-                <img src={`${API_BASE}${p.thumbnail_url}`} alt="" style={{ width: '16px', height: '16px', borderRadius: '4px', objectFit: 'cover', flexShrink: 0 }} />
+                <img src={`${getApiBase()}${p.thumbnail_url}`} alt="" style={{ width: '16px', height: '16px', borderRadius: '4px', objectFit: 'cover', flexShrink: 0 }} />
               ) : (
                 <Music size={14} color="var(--primary)" />
               )}

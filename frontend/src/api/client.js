@@ -1,7 +1,7 @@
-import { API_BASE } from '../config';
+import { getApiBase } from '../config';
 
 async function request(path, options = {}) {
-  const res = await fetch(`${API_BASE}${path}`, options);
+  const res = await fetch(`${getApiBase()}${path}`, options);
   if (!res.ok) {
     let detail;
     try {

@@ -1,6 +1,6 @@
 import { Mic, Play, ListPlus, Shuffle, Edit } from 'lucide-react';
 import { useApp } from '../../context/app-context';
-import { API_BASE } from '../../config';
+import { getApiBase } from '../../config';
 import SongRow from '../songs/SongRow';
 
 export default function PlaylistDetail({ playlist }) {
@@ -35,7 +35,7 @@ export default function PlaylistDetail({ playlist }) {
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <div style={{ width: '80px', height: '80px', borderRadius: '12px', background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 20px rgba(0,0,0,0.4)', overflow: 'hidden' }}>
             {playlist.thumbnail_url ? (
-              <img src={`${API_BASE}${playlist.thumbnail_url}`} alt={playlist.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={`${getApiBase()}${playlist.thumbnail_url}`} alt={playlist.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
               <Mic size={40} color="white" />
             )}

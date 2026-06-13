@@ -9,7 +9,7 @@ import SearchResults from './SearchResults';
 import ArtistCard from '../artists/ArtistCard';
 import ArtistDetail from '../artists/ArtistDetail';
 import ArtistRowImage from '../artists/ArtistRowImage';
-import { API_BASE } from '../../config';
+import { getApiBase } from '../../config';
 
 const normalizeText = (text) => {
   if (!text) return '';
@@ -209,7 +209,7 @@ export default function HomeView({ setActiveTab }) {
                               flexShrink: 0
                             }}>
                               {song.thumbnail_url ? (
-                                <img src={`${API_BASE}${song.thumbnail_url}`} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                <img src={`${getApiBase()}${song.thumbnail_url}`} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                               ) : (
                                 <Music size={12} />
                               )}

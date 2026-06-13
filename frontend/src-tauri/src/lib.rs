@@ -4,7 +4,7 @@ use std::process::{Child, Command};
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
 
-use tauri::{Manager, RunEvent, WebviewUrl, WebviewWindowBuilder};
+use tauri::{Manager, RunEvent};
 
 /// Port the dev backend runs on (`uvicorn backend.app.main:app --port 8000`),
 /// used when no packaged sidecar is found (i.e. during `tauri dev`).
@@ -88,14 +88,10 @@ pub fn run() {
                 None => DEV_BACKEND_PORT,
             };
 
-            WebviewWindowBuilder::new(app, "main", WebviewUrl::default())
-                .title("SingChronized")
-                .inner_size(1280.0, 800.0)
-                .min_inner_size(900.0, 600.0)
-                .resizable(true)
-                .center()
-                .initialization_script(&format!("window.__BACKEND_PORT__ = {port};"))
-                .build()?;
+            let win = app
+                .get_webview_window("main")
+                .ok_or("main window not found")?;
+            win.eval(&format!("window.__BACKEND_PORT__ = {port};"))?;
 
             Ok(())
         })
