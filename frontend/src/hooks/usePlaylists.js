@@ -51,12 +51,30 @@ export function usePlaylists() {
     }
   };
 
+  const renamePlaylist = async (oldName, newName) => {
+    try {
+      const data = await api.renamePlaylist(oldName, newName);
+      const updatedName = data.name;
+      await fetchPlaylists();
+      setSelectedPlaylist(prev => {
+        if (prev && prev.name === oldName) {
+          return { ...prev, name: updatedName };
+        }
+        return prev;
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "Failed to rename playlist");
+    }
+  };
+
   return {
     playlists,
     selectedPlaylist,
     setSelectedPlaylist,
     fetchPlaylists,
     addSongToPlaylist,
-    deletePlaylist
+    deletePlaylist,
+    renamePlaylist
   };
 }

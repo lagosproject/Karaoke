@@ -1,4 +1,4 @@
-import { Mic, Play, ListPlus, Shuffle } from 'lucide-react';
+import { Mic, Play, ListPlus, Shuffle, Edit } from 'lucide-react';
 import { useApp } from '../../context/app-context';
 import { API_BASE } from '../../config';
 import SongRow from '../songs/SongRow';
@@ -72,6 +72,18 @@ export default function PlaylistDetail({ playlist }) {
             disabled={playlist.songs.length === 0}
           >
             <Shuffle size={16} /> Shuffle
+          </button>
+          <button
+            onClick={async () => {
+              const newName = prompt("Enter new name for playlist:", playlist.name);
+              if (newName && newName.trim() && newName.trim() !== playlist.name) {
+                await playlists.renamePlaylist(playlist.name, newName.trim());
+              }
+            }}
+            className="interactive-btn secondary-btn"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
+            <Edit size={16} /> Rename
           </button>
           <button
             onClick={() => playlists.deletePlaylist(playlist.name)}

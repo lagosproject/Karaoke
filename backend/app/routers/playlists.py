@@ -1,6 +1,6 @@
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
-from ..schemas import PlaylistCreateRequest
+from ..schemas import PlaylistCreateRequest, PlaylistRenameRequest
 from ..services import playlists as playlist_service
 
 router = APIRouter(prefix="/playlists", tags=["playlists"])
@@ -40,3 +40,14 @@ async def upload_playlist_thumbnail(name: str, file: UploadFile = File(...)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     return {"message": "Thumbnail uploaded successfully", "url": url}
+
+
+@router.put("/{name}/rename")
+def rename_playlist(name: str, req: PlaylistRenameRequest):
+    try:
+        new_name = playlist_service.rename_playlist(name, req.new_name)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to rename playlist: {e}")
+    return {"message": "Playlist renamed successfully", "name": new_name}

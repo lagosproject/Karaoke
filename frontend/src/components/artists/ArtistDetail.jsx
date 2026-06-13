@@ -5,7 +5,7 @@ import SongRow from '../songs/SongRow';
 import { api } from '../../api/client';
 import { API_BASE } from '../../config';
 
-export default function ArtistDetail({ artistName, onClose }) {
+export default function ArtistDetail({ artistName }) {
   const { library, playSong, queue, openCreatePlaylistModal } = useApp();
   const { songs } = library;
   const [imageUrl, setImageUrl] = useState(null);

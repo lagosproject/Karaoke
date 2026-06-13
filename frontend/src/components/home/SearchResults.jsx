@@ -48,7 +48,7 @@ const getMatchScore = (text, query) => {
   return 0; // No match
 };
 
-export default function SearchResults({ query, onClear, onSelectArtist, onSelectPlaylist }) {
+export default function SearchResults({ query, onSelectArtist, onSelectPlaylist }) {
   const { library, playlists } = useApp();
   const [searchFilter, setSearchFilter] = useState('all');
 

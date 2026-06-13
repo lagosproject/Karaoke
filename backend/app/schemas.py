@@ -24,3 +24,8 @@ class SaveLyricsRequest(BaseModel):
 class PlaylistCreateRequest(BaseModel):
     name: str
     song_ids: list[int]
+
+
+class PlaylistRenameRequest(BaseModel):
+    new_name: str
+

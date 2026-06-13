@@ -9,7 +9,20 @@ Sing karaoke with your own music library. SingChronized plays the **original voc
 
 ---
 
+## 📸 Screenshots
+
+Here is a preview of the application in action:
+
+| **Home / Music Library** | **Karaoke Player / Lyrics View** | **AI Ingestion & Processing** |
+| :---: | :---: | :---: |
+| ![Home Screen](docs/screenshots/home.png) | ![Karaoke Player / Lyrics View](docs/screenshots/player.png) | ![AI Ingestion & Processing](docs/screenshots/studio.png) |
+| **Audio Routing Settings** | **Playlists Manager** | |
+| ![Audio Routing Settings](docs/screenshots/settings.png) | ![Playlists Manager](docs/screenshots/playlists.png) | |
+
+---
+
 ## 📋 Table of Contents
+- [📸 Screenshots](#-screenshots)
 - [🎵 User Guide](#-user-guide)
 - [⌨️ Keyboard Shortcuts](#-keyboard-shortcuts)
 - [🏗 Technical Architecture](#-technical-architecture)
@@ -33,6 +46,8 @@ Go to **Settings → Audio Routing** and pick two output devices:
 
 Hit **Test** next to each device to confirm sound comes out of the right place. If you only have one output device, the app plays the instrumental on the one output, just like a regular karaoke player.
 
+![Audio Routing Settings](docs/screenshots/settings.png)
+
 > **Linux tip:** Bluetooth, USB, or HDMI audio are the easiest way to get two separate outputs. The built-in jack and speakers share one audio path on most laptops and can't be split.
 
 ---
@@ -54,6 +69,8 @@ Each imported song shows a pipeline card with two actions:
 A progress bar appears while the AI works. The first run of each AI model downloads it (~1 GB for Demucs, ~150 MB–1.5 GB for Whisper).
 > **Note:** *Auto Lyrics* requires *Split Audio* to finish first for higher transcription accuracy.
 
+![AI Ingestion & Processing](docs/screenshots/studio.png)
+
 ---
 
 ### Step 4 — Edit lyrics (optional)
@@ -69,10 +86,14 @@ Click the play button on any song from the **Home** screen or the **Studio** tab
 - Toggle **Fullscreen Lyrics** for the big-screen karaoke view.
 - Adjust **Singer** and **Audience** volume sliders independently in the player bar.
 
+![Karaoke Player / Lyrics View](docs/screenshots/player.png)
+
 ---
 
 ### Playlists
 In the **Playlists** tab, you can create ordered setlists. Songs in a playlist play back-to-back automatically, with a brief countdown between tracks so the next singer has time to step up.
+
+![Playlists Manager](docs/screenshots/playlists.png)
 
 ---
 

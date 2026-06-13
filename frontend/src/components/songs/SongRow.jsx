@@ -8,7 +8,7 @@ import { API_BASE } from '../../config';
  * playlist). `dropdownId` must be unique per rendered list so only one
  * dropdown is open at a time across the app.
  */
-export default function SongRow({ song, index, dropdownId, showPendingHint = true, showPlaylistAction = true, hideIndex = false }) {
+export default function SongRow({ song, dropdownId, showPendingHint = true, showPlaylistAction = true }) {
   const { playSong, queue, activeDropdownSongId, setActiveDropdownSongId } = useApp();
   const isReady = song.split_status === 'COMPLETED' && song.lyrics_status === 'COMPLETED';
 

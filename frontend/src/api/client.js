@@ -63,6 +63,11 @@ export const api = {
   getPlaylists: () => request('/api/playlists'),
   createPlaylist: (name, songIds) => postJson('/api/playlists', { name, song_ids: songIds }),
   deletePlaylist: (name) => request(`/api/playlists/${name}`, { method: 'DELETE' }),
+  renamePlaylist: (name, newName) => request(`/api/playlists/${name}/rename`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ new_name: newName })
+  }),
   uploadPlaylistThumbnail: (name, file) => {
     const formData = new FormData();
     formData.append('file', file);

@@ -116,3 +116,38 @@ def save_thumbnail(name: str, upload_filename: str, upload_file) -> str:
         shutil.copyfileobj(upload_file, buffer)
 
     return f"/library/playlists/{name}{file_ext}"
+
+
+def rename_playlist(old_name: str, new_name: str) -> str:
+    os.makedirs(PLAYLISTS_DIR, exist_ok=True)
+
+    safe_new_name = "".join(c for c in new_name if c.isalnum() or c in (" ", "_", "-")).strip()
+    if not safe_new_name:
+        raise ValueError("Invalid new playlist name")
+
+    old_m3u_path = _playlist_path(old_name)
+    new_m3u_path = _playlist_path(safe_new_name)
+
+    if not os.path.exists(old_m3u_path):
+        raise ValueError("Original playlist not found")
+
+    if os.path.exists(new_m3u_path) and old_name != safe_new_name:
+        raise ValueError("A playlist with the new name already exists")
+
+    # Rename m3u
+    os.rename(old_m3u_path, new_m3u_path)
+
+    # Rename thumbnails
+    for ext in THUMBNAIL_EXTENSIONS:
+        old_thumb = os.path.join(PLAYLISTS_DIR, f"{old_name}{ext}")
+        new_thumb = os.path.join(PLAYLISTS_DIR, f"{safe_new_name}{ext}")
+        if os.path.exists(old_thumb):
+            try:
+                if os.path.exists(new_thumb) and old_name != safe_new_name:
+                    os.remove(new_thumb)
+                os.rename(old_thumb, new_thumb)
+            except Exception:
+                pass
+
+    return safe_new_name
+
