@@ -3,7 +3,7 @@ import { User, Play, ListPlus, Shuffle, FolderPlus } from 'lucide-react';
 import { useApp } from '../../context/app-context';
 import SongRow from '../songs/SongRow';
 import { api } from '../../api/client';
-import { getApiBase } from '../../config';
+import { resolveMediaUrl } from '../../config';
 
 export default function ArtistDetail({ artistName }) {
   const { library, playSong, queue, openCreatePlaylistModal } = useApp();
@@ -71,7 +71,7 @@ export default function ArtistDetail({ artistName }) {
           <div style={{ width: '120px', height: '120px', borderRadius: '50%', background: imageUrl ? 'transparent' : getGradient(artistName), display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
             {imageUrl ? (
               <img 
-                src={`${getApiBase()}${imageUrl}`} 
+                src={resolveMediaUrl(imageUrl)} 
                 alt={artistName} 
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
               />

@@ -7,6 +7,12 @@ import sys
 from .. import database
 from ..config import IS_FROZEN, PROJECT_ROOT
 
+try:
+    import certifi
+    _CERTIFI_BUNDLE = certifi.where()
+except ImportError:
+    _CERTIFI_BUNDLE = None
+
 
 def _demucs_command() -> list:
     if IS_FROZEN:
@@ -19,15 +25,17 @@ def _demucs_command() -> list:
     return ["demucs"]  # fallback to system path
 
 
-def _stream_progress(process, progress_callback):
-    """Parse percentages from Demucs/tqdm output (lines end with \\r or \\n)."""
+def _stream_progress(process, song_id, progress_callback):
+    """Parse percentages from Demucs/tqdm output and log all lines."""
     percent_re = re.compile(r'(\d+)%')
     buffer = []
 
     def flush():
         if buffer:
-            match = percent_re.search("".join(buffer))
-            if match:
+            line = "".join(buffer)
+            print(f"[Demucs Song {song_id}]: {line}")
+            match = percent_re.search(line)
+            if match and progress_callback:
                 progress_callback(int(match.group(1)))
             buffer.clear()
 
@@ -75,19 +83,21 @@ def run_demucs_separation(song_id: int, original_path: str, output_dir: str, pro
         ]
         print(f"Running Demucs: {' '.join(cmd)}")
 
+        env = os.environ.copy()
+        if _CERTIFI_BUNDLE and os.path.exists(_CERTIFI_BUNDLE):
+            env.setdefault("SSL_CERT_FILE", _CERTIFI_BUNDLE)
+            env.setdefault("REQUESTS_CA_BUNDLE", _CERTIFI_BUNDLE)
+
         process = subprocess.Popen(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            bufsize=1
+            bufsize=1,
+            env=env,
         )
 
-        if progress_callback:
-            _stream_progress(process, progress_callback)
-        else:
-            for line in process.stdout:
-                print(f"[Demucs Song {song_id}]: {line.strip()}")
+        _stream_progress(process, song_id, progress_callback)
 
         process.wait()
         if process.returncode != 0:

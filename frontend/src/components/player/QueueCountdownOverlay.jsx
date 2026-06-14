@@ -1,5 +1,5 @@
 import { useApp } from '../../context/app-context';
-import { getApiBase } from '../../config';
+import { resolveMediaUrl } from '../../config';
 import { ArrowLeft, ArrowRight, Music } from 'lucide-react';
 
 export default function QueueCountdownOverlay() {
@@ -45,7 +45,7 @@ export default function QueueCountdownOverlay() {
         <div style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `url(${getApiBase()}${nextSong.thumbnail_url})`,
+          backgroundImage: `url(${resolveMediaUrl(nextSong.thumbnail_url)})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(40px) brightness(0.25)',
@@ -96,7 +96,7 @@ export default function QueueCountdownOverlay() {
             <ArrowLeft size={20} style={{ color: 'var(--primary)', flexShrink: 0 }} />
             {pastSong.thumbnail_url ? (
               <img 
-                src={`${getApiBase()}${pastSong.thumbnail_url}`} 
+                src={resolveMediaUrl(pastSong.thumbnail_url)} 
                 alt="" 
                 style={{ width: '56px', height: '56px', borderRadius: '8px', objectFit: 'cover', flexShrink: 0 }} 
               />
@@ -172,7 +172,7 @@ export default function QueueCountdownOverlay() {
             </div>
             {nextOfNextSong.thumbnail_url ? (
               <img 
-                src={`${getApiBase()}${nextOfNextSong.thumbnail_url}`} 
+                src={resolveMediaUrl(nextOfNextSong.thumbnail_url)} 
                 alt="" 
                 style={{ width: '56px', height: '56px', borderRadius: '8px', objectFit: 'cover', flexShrink: 0 }} 
               />

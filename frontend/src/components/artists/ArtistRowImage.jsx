@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { User } from 'lucide-react';
 import { api } from '../../api/client';
-import { getApiBase } from '../../config';
+import { resolveMediaUrl } from '../../config';
 
 export default function ArtistRowImage({ artistName, size = 32 }) {
   const [imageUrl, setImageUrl] = useState(null);
@@ -47,7 +47,7 @@ export default function ArtistRowImage({ artistName, size = 32 }) {
     }}>
       {imageUrl ? (
         <img 
-          src={`${getApiBase()}${imageUrl}`} 
+          src={resolveMediaUrl(imageUrl)} 
           alt={artistName} 
           style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
         />

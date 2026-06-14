@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { User, PlayCircle } from 'lucide-react';
 import { api } from '../../api/client';
-import { getApiBase } from '../../config';
+import { resolveMediaUrl } from '../../config';
 import { useApp } from '../../context/app-context';
 
 export default function ArtistCard({ artistName, songsCount, onClick }) {
@@ -63,7 +63,7 @@ export default function ArtistCard({ artistName, songsCount, onClick }) {
       >
         {imageUrl ? (
           <img 
-            src={`${getApiBase()}${imageUrl}`} 
+            src={resolveMediaUrl(imageUrl)} 
             alt={artistName} 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
           />

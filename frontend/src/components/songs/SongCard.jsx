@@ -1,6 +1,6 @@
 import { Mic, Music, PlayCircle } from 'lucide-react';
 import { useApp } from '../../context/app-context';
-import { getApiBase } from '../../config';
+import { resolveMediaUrl } from '../../config';
 
 export default function SongCard({ song, accent = false }) {
   const { playSong } = useApp();
@@ -15,7 +15,7 @@ export default function SongCard({ song, accent = false }) {
         justifyContent: 'center'
       }}>
         {song.thumbnail_url ? (
-          <img src={`${getApiBase()}${song.thumbnail_url}`} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={resolveMediaUrl(song.thumbnail_url)} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
           accent ? <Mic size={32} /> : <Music size={32} />
         )}

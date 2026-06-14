@@ -1,7 +1,7 @@
 import { Mic, PlayCircle, Plus, Music } from 'lucide-react';
 import { useApp } from '../../context/app-context';
 import AddToPlaylistMenu from './AddToPlaylistMenu';
-import { getApiBase } from '../../config';
+import { resolveMediaUrl } from '../../config';
 
 /**
  * A clickable list row for a song with hover actions (add to queue / add to
@@ -33,7 +33,7 @@ export default function SongRow({ song, dropdownId, showPendingHint = true, show
         flexShrink: 0
       }}>
         {song.thumbnail_url ? (
-          <img src={`${getApiBase()}${song.thumbnail_url}`} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={resolveMediaUrl(song.thumbnail_url)} alt={song.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
           <Music size={16} />
         )}

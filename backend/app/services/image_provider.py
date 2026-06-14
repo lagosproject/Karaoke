@@ -1,4 +1,5 @@
 import json
+import ssl
 import urllib.request
 import urllib.parse
 import base64
@@ -7,6 +8,12 @@ import hashlib
 import os
 from abc import ABC, abstractmethod
 from typing import Optional, Dict, Any
+
+try:
+    import certifi
+    _SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
+except ImportError:
+    _SSL_CONTEXT = ssl.create_default_context()
 
 class BaseImageProvider(ABC):
     """
@@ -38,7 +45,7 @@ class DeezerImageProvider(BaseImageProvider):
                 url, 
                 headers={"User-Agent": "SingChronizedApp/1.0"}
             )
-            with urllib.request.urlopen(req, timeout=5) as response:
+            with urllib.request.urlopen(req, context=_SSL_CONTEXT, timeout=5) as response:
                 if response.status == 200:
                     return json.loads(response.read().decode("utf-8"))
         except Exception as e:
@@ -89,7 +96,7 @@ class SpotifyImageProvider(BaseImageProvider):
 
         try:
             req = urllib.request.Request(url, data=data, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=5) as response:
+            with urllib.request.urlopen(req, context=_SSL_CONTEXT, timeout=5) as response:
                 if response.status == 200:
                     res_data = json.loads(response.read().decode("utf-8"))
                     self.access_token = res_data["access_token"]
@@ -111,7 +118,7 @@ class SpotifyImageProvider(BaseImageProvider):
 
         try:
             req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=5) as response:
+            with urllib.request.urlopen(req, context=_SSL_CONTEXT, timeout=5) as response:
                 if response.status == 200:
                     return json.loads(response.read().decode("utf-8"))
         except Exception as e:
@@ -167,7 +174,7 @@ class GeniusImageProvider(BaseImageProvider):
 
         try:
             req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=5) as response:
+            with urllib.request.urlopen(req, context=_SSL_CONTEXT, timeout=5) as response:
                 if response.status == 200:
                     return json.loads(response.read().decode("utf-8"))
         except Exception as e:
@@ -251,7 +258,7 @@ class CachedImageProvider(BaseImageProvider):
         
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "SingChronizedApp/1.0"})
-            with urllib.request.urlopen(req, timeout=10) as response:
+            with urllib.request.urlopen(req, context=_SSL_CONTEXT, timeout=10) as response:
                 with open(local_path, "wb") as f:
                     f.write(response.read())
             
